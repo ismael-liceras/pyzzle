@@ -6,8 +6,12 @@ class GameEngine():
 
     def __init__(self, image_file):
         pygame.init()
-
-        image = pygame.image.load(image_file)
+        try:
+            image = pygame.image.load(image_file)
+        except:
+            #TODO To improve exception management here
+            print 'Error loading image'
+            exit()
         self.screen = pygame.display.set_mode((image.get_width(), image.get_height()))
         rect = pygame.Rect((0, 0, image.get_width(), image.get_height()))
         self.background = pygame.Surface(rect.size)
