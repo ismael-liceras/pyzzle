@@ -8,8 +8,8 @@ class GameEngine():
         pygame.init()
 
         image = pygame.image.load(image_file)
-        self.screen = pygame.display.set_mode((800, 600))
-        rect = pygame.Rect((0, 0, 800, 600))
+        self.screen = pygame.display.set_mode((image.get_width(), image.get_height()))
+        rect = pygame.Rect((0, 0, image.get_width(), image.get_height()))
         self.background = pygame.Surface(rect.size)
         self.background.blit(image, (0, 0), rect)
         self.screen.blit(self.background, (0, 0))
