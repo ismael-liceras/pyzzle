@@ -23,6 +23,7 @@ class GameEngine():
         self.background = pygame.Surface(rect.size)
         self.render_background_tiles()
 
+        # Displaying image as tiles (sprites)
         self.sprites = pygame.sprite.RenderPlain()
         self.generate_picture_sprites(image, int(factor))
 
