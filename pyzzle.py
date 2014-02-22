@@ -26,5 +26,6 @@ def main():
     while 1:
         if ge.handle_events() == -1:
             return
+        ge.do_play()
 
 if __name__ == '__main__': main()
