@@ -21,9 +21,6 @@ def main():
         print "usage: pyzzle --n=<number> image_file"
         exit()
 
-    print argv
-
-    exit()
     ge = GameEngine(image, n)
 
     while 1:
