@@ -17,6 +17,7 @@ class GameEngine():
             print 'Error loading image'
             exit()
         self.factor = factor
+        self.clock = pygame.time.Clock()
 
         # Background management
         self.screen = pygame.display.set_mode((self.image.get_width(), self.image.get_height()))
@@ -73,6 +74,7 @@ class GameEngine():
         self.last_piece = piece
 
     def do_play(self):
+        self.clock.tick(60)
         self.update_sprites()
         self.draw_everything()
 
