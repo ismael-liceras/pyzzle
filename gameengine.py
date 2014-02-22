@@ -11,21 +11,23 @@ class GameEngine():
 
         #Initializing parameters
         try:
-            image = pygame.image.load(image_file)
+            self.image = pygame.image.load(image_file)
         except:
             #TODO To improve exception management here
             print 'Error loading image'
             exit()
+        self.factor = factor
 
         # Background management
-        self.screen = pygame.display.set_mode((image.get_width(), image.get_height()))
-        rect = pygame.Rect((0, 0, image.get_width(), image.get_height()))
+        self.screen = pygame.display.set_mode((self.image.get_width(), self.image.get_height()))
+        rect = pygame.Rect((0, 0, self.image.get_width(), self.image.get_height()))
         self.background = pygame.Surface(rect.size)
         self.render_background_tiles()
 
         # Displaying image as tiles (sprites)
+        self.last_piece = None
         self.sprites = pygame.sprite.RenderPlain()
-        self.generate_picture_sprites(image, int(factor))
+        self.generate_picture_sprites(self.image, int(self.factor), True)
 
         #TODO NEXT Create a piece object...
         ## ... divide image in pieces depending on factor
@@ -50,26 +52,32 @@ class GameEngine():
                 h += background_tile.get_height()
             w += background_tile.get_width()
             h = 0
-        self.screen.blit(self.background, (0, 0))
+        #self.screen.blit(self.background, (0, 0))
 
-    def generate_picture_sprites(self, image, factor):
+    def generate_picture_sprites(self, image, factor, gap):
         piece_width = image.get_width() // factor
         piece_height = image.get_height() // factor
-        w = h = 0
+        w = h = original_position_id = 0
         while w < self.screen.get_width():
             while h < self.screen.get_height():
-                sprite_img = SpriteManager.load(image, w, h, piece_width, piece_height)
-                piece = Piece(sprite_img, (w, h))
-                piece.add(self.sprites)
-                h += piece_height
+                original_position_id += 1
+                if (gap is False) or (original_position_id != (factor*factor)):
+                    sprite_img = SpriteManager.load(image, w, h, piece_width, piece_height)
+                    piece = Piece(sprite_img, (w, h), original_position_id)
+                    piece.add(self.sprites)
+                    h += piece_height
+                else:
+                    break
             w += piece_width
             h = 0
+        self.last_piece = piece
 
     def do_play(self):
         self.update_sprites()
         self.draw_everything()
 
     def draw_everything(self):
+        self.screen.blit(self.background, (0, 0))
         self.sprites.draw(self.screen)
         pygame.display.flip()
 
