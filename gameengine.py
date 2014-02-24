@@ -52,10 +52,11 @@ class GameEngine():
                 pos = pygame.mouse.get_pos()
                 clicked_piece = [s for s in self.sprites if s.rect.collidepoint(pos)]
                 if len(clicked_piece) > 0:
-                    #self.gap.get_borders()
-                    self.gap.set_current_position(clicked_piece[0].do_slide())
+                    distance = self.gap.get_distance_to_position(clicked_piece[0].get_position())
+                    if abs(distance[0]) <= 1 and abs(distance[1]) <= 1:
+                        self.gap.set_current_position(clicked_piece[0].do_slide(distance))
                 else:
-                    print self.gap.get_borders()
+                    print self.gap.get_current_position()
 
     def render_background_tiles(self):
         background_tile = pygame.image.load('background.jpg')
@@ -67,18 +68,16 @@ class GameEngine():
                 h += background_tile.get_height()
             w += background_tile.get_width()
             h = 0
-        #self.screen.blit(self.background, (0, 0))
 
     def generate_picture_sprites(self, image, factor, gap):
         piece_width = image.get_width() // factor
         piece_height = image.get_height() // factor
-        w = h = original_position_id = 0
-        while w < self.screen.get_width():
-            while h < self.screen.get_height():
-                original_position_id += 1
-                if (gap is False) or (original_position_id != (factor*factor)):
+        w = h = 0
+        for x in range(1, factor+1):
+            for y in range(1, factor+1):
+                if (gap is False) or x is not factor or y is not factor:
                     sprite_img = SpriteManager.load(image, w, h, piece_width, piece_height)
-                    piece = Piece(sprite_img, (w, h), original_position_id, factor)
+                    piece = Piece(sprite_img, (w, h), (x, y), factor)
                     piece.add(self.sprites)
                     h += piece_height
                 else:
