@@ -27,7 +27,10 @@ class Piece(pygame.sprite.Sprite):
     def update(self):
         if self.move != (0, 0):
             new_pos = self.rect.move((self.move[0], self.move[1]))
-            if new_pos.left > self.stopping_at[0] or new_pos.top > self.stopping_at[1]:
+            if self.move[0] > 0 and new_pos.left > self.stopping_at[0] \
+                    or self.move[1] > 0 and new_pos.top > self.stopping_at[1]\
+                    or self.move[0] < 0 and new_pos.left < self.stopping_at[0] \
+                    or self.move[1] < 0 and new_pos.top < self.stopping_at[1]:
                 self.move = (0, 0)
                 new_pos.left = self.stopping_at[0]
                 new_pos.top = self.stopping_at[1]
