@@ -44,6 +44,8 @@ class GameEngine():
                 return -1
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 return -1
+            elif event.type == MOUSEBUTTONDOWN:
+                print "click"
 
     def render_background_tiles(self):
         background_tile = pygame.image.load('background.jpg')
