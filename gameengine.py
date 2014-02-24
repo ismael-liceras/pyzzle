@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from piece import Piece
+from gap import Gap
 from sprite import SpriteManager
 
 
@@ -32,6 +33,9 @@ class GameEngine():
         self.sprites = pygame.sprite.RenderPlain()
         self.generate_picture_sprites(self.image, int(self.factor), True)
 
+        # Dealing with gap
+        self.gap = Gap(int(self.factor))
+
         #TODO NEXT Create a piece object...
         ## ... divide image in pieces depending on factor
         ## ... display the correct image on each piece
@@ -47,8 +51,11 @@ class GameEngine():
             elif event.type == MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 clicked_piece = [s for s in self.sprites if s.rect.collidepoint(pos)]
-                print "click"
-                print clicked_piece[0].get_id()
+                if len(clicked_piece) > 0:
+                    #self.gap.get_borders()
+                    self.gap.set_current_position(clicked_piece[0].do_slide())
+                else:
+                    print self.gap.get_borders()
 
     def render_background_tiles(self):
         background_tile = pygame.image.load('background.jpg')
@@ -71,7 +78,7 @@ class GameEngine():
                 original_position_id += 1
                 if (gap is False) or (original_position_id != (factor*factor)):
                     sprite_img = SpriteManager.load(image, w, h, piece_width, piece_height)
-                    piece = Piece(sprite_img, (w, h), original_position_id)
+                    piece = Piece(sprite_img, (w, h), original_position_id, factor)
                     piece.add(self.sprites)
                     h += piece_height
                 else:
