@@ -9,6 +9,11 @@ class Piece(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         pygame.draw.rect(self.image, (50, 50, 50), self.rect, 1)
         self.rect.topleft = initial_position
+        self.move = 0
+
+    def do_slide(self):
+        self.move = 10
 
     def update(self):
-        pass
+        new_pos = self.rect.move((self.move, 0))
+        self.rect = new_pos
