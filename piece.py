@@ -24,8 +24,11 @@ class Piece(pygame.sprite.Sprite):
     def get_position(self):
         return self.current_position
 
+    def is_moving(self):
+        return self.move != (0, 0)
+
     def update(self):
-        if self.move != (0, 0):
+        if self.is_moving():
             new_pos = self.rect.move((self.move[0], self.move[1]))
             if self.move[0] > 0 and new_pos.left > self.stopping_at[0] \
                     or self.move[1] > 0 and new_pos.top > self.stopping_at[1]\

@@ -51,7 +51,7 @@ class GameEngine():
             elif event.type == MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 clicked_piece = [s for s in self.sprites if s.rect.collidepoint(pos)]
-                if len(clicked_piece) > 0:
+                if len(clicked_piece) > 0 and clicked_piece[0].is_moving() is False:
                     distance = self.gap.get_distance_to_position(clicked_piece[0].get_position())
                     if abs(distance[0]) <= 1 and abs(distance[1]) <= 1 and abs(distance[0]) != abs(distance[1]):
                         self.gap.set_current_position(clicked_piece[0].do_slide(distance))
