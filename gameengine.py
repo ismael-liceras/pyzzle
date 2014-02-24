@@ -45,7 +45,10 @@ class GameEngine():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 return -1
             elif event.type == MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                clicked_piece = [s for s in self.sprites if s.rect.collidepoint(pos)]
                 print "click"
+                print clicked_piece[0].get_id()
 
     def render_background_tiles(self):
         background_tile = pygame.image.load('background.jpg')
