@@ -8,6 +8,7 @@ class GameEngine():
 
     def __init__(self, image_file, factor):
         pygame.init()
+        pygame.mouse.set_visible(1)
         pygame.display.set_caption('PyZZLE: ' + image_file + " - " + factor + "*" + factor + " pieces")
 
         #Initializing parameters
